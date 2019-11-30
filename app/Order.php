@@ -20,7 +20,7 @@ class Order extends Model
 
     public function delivery()
     {
-        return $this->belongsTo(Delivery::class, 'address_id', 'id');
+        return $this->belongsTo(Delivery::class, 'delivery_id', 'id');
     }
 
     public function products(){

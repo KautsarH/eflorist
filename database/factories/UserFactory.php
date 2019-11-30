@@ -17,11 +17,26 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+    
+    $faker = \Faker\Factory::create('ms_MY');
+    $roles = [
+        'admin',
+        'general_user',
     ];
+
+    foreach ($roles as $role)
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $user = \App\User::updateOrCreate([
+            'name' => $faker->name,
+            'username' => $faker->userName,
+            'email' =>'general_user'. '_' . $i . '@example.com',
+            'email_verified_at' => now(),
+            'phone_no'=> cleanPhoneNumber($faker->phoneNumber),
+            'password' => bcrypt('secret'), // password
+            'remember_token' => Str::random(10),
+            'role' => 'general_user',
+            ]);
+        }
+    }
 });

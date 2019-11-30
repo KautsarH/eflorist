@@ -17,7 +17,8 @@ class CreateDeliveriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('phone_no');
-            $table->string('address');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
         });
     }
