@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Delivery extends Model
 {
+    protected $table = 'deliveries';
+
+    protected $fillable = [
+        'name', 'phone_no', 'latitude', 'longitude', 'user_id'
+    ];
+
     public function order()
     {
         return $this->hasOne(Order::class, 'order_id', 'id');

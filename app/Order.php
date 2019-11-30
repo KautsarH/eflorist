@@ -8,6 +8,10 @@ class Order extends Model
 {
     protected $table = 'orders';
 
+    protected $fillable = [
+        'status', 'total', 'time', 'date', 'payment', 'remarks', 'ocassion_id', 'user_id', 'delivery_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

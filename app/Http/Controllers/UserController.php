@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\User;
+use App\Http\Resources\User as UserResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class UserController extends Controller
 {
@@ -13,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::paginate(15);
+        return UserResource::collection($users);
     }
 
     /**
@@ -34,7 +41,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::updateOrcreate([
+            'username' => request('username'),
+            'password' =>  bcrypt(request('password')),
+            'email' =>  request('email'),
+            'phone_no' => request('phone_no'),
+            'name' => request('name'),
+            'role' => 'customer',
+        ]); 
+        
+        if($user->save()){
+            //return new UserResource($user);
+            return "Success create user";
+        }
     }
 
     /**
@@ -45,7 +64,15 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!$id) {
+            return "Account doesn't exist";
+        }
+        try {
+        $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return "Account doesn't exist";
+        }
+        return new UserResource($user);
     }
 
     /**
@@ -68,7 +95,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+             return "Account doesn't exist";
+        }
+
+        $user->update([
+            'password' =>  bcrypt(request('password')),
+            'phone_no' => request('phone_no'),
+
+        ]); 
+
+        if($user->save()){
+            //return new UserResource($user);
+            return "Success update user";
+        }
     }
 
     /**
@@ -79,6 +121,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+             return "Account doesn't exist";
+        }
+        $user->delete();
+
+       // if($user->delete()){
+            //return new UserResource($user);
+            return "Success delete user";
+        //}
     }
 }
