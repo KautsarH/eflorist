@@ -12,16 +12,17 @@ class DeliveriesTableSeeder extends Seeder
     public function run()
     {
         $users = \App\User::where('role','customer')->get();
+        //dd($users);
         $faker = \Faker\Factory::create('ms_MY');
         $this->command->info('Delivery Seed');
 
-            for ($i = 0; $i < 10; $i++) {
+            foreach ($users as $user) {
                 $address = \App\Delivery::updateOrCreate([
                 'name' => $faker->name,
                 'phone_no'=> $faker->phoneNumber,
                 'latitude' => $faker->latitude(), 
                 'longitude' => $faker->longitude(),
-                'user_id' => mt_rand(1,$users->count()),
+                'user_id' => $user->id,
                 ]);
             }
         

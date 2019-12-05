@@ -17,6 +17,7 @@ class ProductsTableSeeder extends Seeder
             'name' => 'Sunflower',
             'description' => 'Sunflowers are one of our iconic symbols of summer',
             'price' => 85.00,
+            //'picture' => faker.image.abstract();
         ]);
 
         $rose = \App\Product::updateOrCreate([

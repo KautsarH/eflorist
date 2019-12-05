@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Occasion extends Model
 {
-    protected $table = 'products';
+    protected $table = 'occasions';
+
+    protected $fillable = [
+        'name', 'description'
+    ];
 
     public function orders()
     {

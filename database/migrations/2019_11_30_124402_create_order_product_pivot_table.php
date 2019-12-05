@@ -18,7 +18,6 @@ class CreateOrderProductPivotTable extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
-            $table->dateTime('date')->nullable();
             $table->timestamps();
         });
     }

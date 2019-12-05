@@ -19,6 +19,7 @@ class CreateDeliveriesTable extends Migration
             $table->string('phone_no');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->string('user_id')->nullable();
             $table->timestamps();
         });
     }
