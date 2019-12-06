@@ -41,19 +41,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::updateOrcreate([
-            'username' => request('username'),
-            'password' =>  bcrypt(request('password')),
-            'email' =>  request('email'),
-            'phone_no' => request('phone_no'),
-            'name' => request('name'),
-            'role' => 'customer',
-        ]); 
+        // $user = User::updateOrcreate([
+        //     'username' => request('username'),
+        //     'password' =>  bcrypt(request('password')),
+        //     'email' =>  request('email'),
+        //     'phone_no' => request('phone_no'),
+        //     'name' => request('name'),
+        //     'role' => 'customer',
+        // ]); 
         
-        if($user->save()){
-            //return new UserResource($user);
-            return "Success create user";
-        }
+        // if($user->save()){
+        //     //return new UserResource($user);
+        //     return "Success create user";
+        // }
     }
 
     /**
@@ -74,6 +74,12 @@ class UserController extends Controller
         }
         return new UserResource($user);
     }
+    public function showProfile($id)
+    {
+        $user = auth()->user();
+
+        return back()->with('success_message', 'Profile (and password) updated successfully!');
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -93,8 +99,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+
+
+    public function update(Request $request,$id)
+    {   
         try {
             $user = User::findOrFail($id);
         } catch (ModelNotFoundException $e) {
@@ -110,6 +118,22 @@ class UserController extends Controller
         if($user->save()){
             //return new UserResource($user);
             return "Success update user";
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {   
+        $user = auth()->user();
+
+        $user->update([
+            'password' =>  bcrypt(request('password')),
+            'phone_no' => request('phone_no'),
+
+        ]); 
+
+        if($user->save()){
+            //return new UserResource($user);
+            return back()->with('success_message', 'Profile (and password) updated successfully!');
         }
     }
 
